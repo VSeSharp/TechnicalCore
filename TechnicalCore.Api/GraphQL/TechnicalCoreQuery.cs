@@ -17,10 +17,7 @@ namespace TechnicalCore.Api.GraphQL
             Field<ArticleType>(
                 "article",
                 arguments: new QueryArguments(new QueryArgument<NonNullGraphType<IdGraphType>>
-                {
-                    Name = "id"
-                }
-                ),
+                    {   Name = "id" }),
                 resolve: context =>
                 {
                     var id = context.GetArgument<int>("id");

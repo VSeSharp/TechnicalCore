@@ -1,7 +1,6 @@
 using GraphQL.DataLoader;
 using GraphQL.Server;
 using GraphQL.Server.Ui.Playground;
-using GraphQL.Types;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
@@ -12,7 +11,6 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using TechnicalCore.Api.Data;
 using TechnicalCore.Api.GraphQL;
-using TechnicalCore.Api.GraphQL.Messaging;
 using TechnicalCore.Api.Repositories;
 
 namespace TechnicalCore.Api
@@ -29,21 +27,6 @@ namespace TechnicalCore.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            //services.AddDbContext<TechnicalCoreDbContext>(opt =>
-            //    opt.UseSqlServer(Configuration.GetConnectionString("TechnicalCore")));
-            //services.AddScoped<IArticleRepository, ArticleRepository>();
-            //services.AddScoped<IArticleReviewRepository, ArticleReviewRepository>();
-            //services.AddSingleton<TechnicalCoreSchema>();
-            //services.AddScoped<TechnicalCoreQuery>();
-            ////services.AddScoped<ReviewMessageService>();
-
-            //services.AddGraphQL()
-            //    .AddSystemTextJson()
-            //    .AddGraphTypes(typeof(TechnicalCoreSchema))
-            //    .AddDataLoader();
-
-
-
             services.AddSingleton<IDataLoaderContextAccessor, DataLoaderContextAccessor>();
             services.AddSingleton<DataLoaderDocumentListener>();
 
@@ -54,18 +37,15 @@ namespace TechnicalCore.Api
             services.AddScoped<TechnicalCoreSchema>();
 
             services.AddGraphQL()
-                .AddSystemTextJson()
-                .AddGraphTypes(typeof(TechnicalCoreSchema), ServiceLifetime.Scoped)
-                .AddDataLoader();
-
-
-
-
-
+                    .AddSystemTextJson()
+                    .AddGraphTypes(typeof(TechnicalCoreSchema), ServiceLifetime.Scoped)
+                    .AddDataLoader();
 
             services.AddControllers()
                 .AddNewtonsoftJson(o => o.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 
+            services.AddCors();
+            
             services.Configure<KestrelServerOptions>(options =>
             {
                 options.AllowSynchronousIO = true;

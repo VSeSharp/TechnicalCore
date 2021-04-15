@@ -1,6 +1,5 @@
 ﻿using GraphQL.DataLoader;
 using GraphQL.Types;
-using System.Security.Claims;
 using TechnicalCore.Api.Data.Entities;
 using TechnicalCore.Api.Repositories;
 
@@ -8,7 +7,6 @@ namespace TechnicalCore.Api.GraphQL.Types
 {
     public class ArticleType : ObjectGraphType<Article>
     {
-        //PROBLEM
         public ArticleType(IArticleReviewRepository reviewRepository, IDataLoaderContextAccessor dataLoaderAccessor)
         {
             Field(t => t.Id);
