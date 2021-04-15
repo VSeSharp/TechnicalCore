@@ -1,5 +1,7 @@
+using GraphQL.DataLoader;
 using GraphQL.Server;
 using GraphQL.Server.Ui.Playground;
+using GraphQL.Types;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
@@ -10,6 +12,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using TechnicalCore.Api.Data;
 using TechnicalCore.Api.GraphQL;
+using TechnicalCore.Api.GraphQL.Messaging;
 using TechnicalCore.Api.Repositories;
 
 namespace TechnicalCore.Api
@@ -26,15 +29,39 @@ namespace TechnicalCore.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc();
+            //services.AddDbContext<TechnicalCoreDbContext>(opt =>
+            //    opt.UseSqlServer(Configuration.GetConnectionString("TechnicalCore")));
+            //services.AddScoped<IArticleRepository, ArticleRepository>();
+            //services.AddScoped<IArticleReviewRepository, ArticleReviewRepository>();
+            //services.AddSingleton<TechnicalCoreSchema>();
+            //services.AddScoped<TechnicalCoreQuery>();
+            ////services.AddScoped<ReviewMessageService>();
+
+            //services.AddGraphQL()
+            //    .AddSystemTextJson()
+            //    .AddGraphTypes(typeof(TechnicalCoreSchema))
+            //    .AddDataLoader();
+
+
+
+            services.AddSingleton<IDataLoaderContextAccessor, DataLoaderContextAccessor>();
+            services.AddSingleton<DataLoaderDocumentListener>();
+
             services.AddDbContext<TechnicalCoreDbContext>(opt =>
                 opt.UseSqlServer(Configuration.GetConnectionString("TechnicalCore")));
             services.AddScoped<IArticleRepository, ArticleRepository>();
+            services.AddScoped<IArticleReviewRepository, ArticleReviewRepository>();
             services.AddScoped<TechnicalCoreSchema>();
 
             services.AddGraphQL()
                 .AddSystemTextJson()
-                .AddGraphTypes(typeof(TechnicalCoreSchema), ServiceLifetime.Scoped);
+                .AddGraphTypes(typeof(TechnicalCoreSchema), ServiceLifetime.Scoped)
+                .AddDataLoader();
+
+
+
+
+
 
             services.AddControllers()
                 .AddNewtonsoftJson(o => o.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
@@ -51,7 +78,7 @@ namespace TechnicalCore.Api
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, TechnicalCoreDbContext dbcontext)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, TechnicalCoreDbContext dbContext)
         {
             if (env.IsDevelopment())
             {
@@ -64,6 +91,8 @@ namespace TechnicalCore.Api
                 app.UseExceptionHandler("/Home/Error");
                 app.UseHsts();
             }
+
+            dbContext.Database.EnsureCreated();
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();

@@ -7,5 +7,6 @@ namespace TechnicalCore.Api.Repositories
     public interface IArticleRepository
     {
         Task<List<Article>> GetAll();
+        Task<Article> GetOne(int id);
     }
 }

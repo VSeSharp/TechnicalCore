@@ -10,8 +10,8 @@ using TechnicalCore.Api.Data;
 namespace TechnicalCore.Api.Migrations
 {
     [DbContext(typeof(TechnicalCoreDbContext))]
-    [Migration("20210415132348_init")]
-    partial class init
+    [Migration("20210415154120_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -44,7 +44,48 @@ namespace TechnicalCore.Api.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Articles");
+                    b.ToTable("Article");
+                });
+
+            modelBuilder.Entity("TechnicalCore.Api.Data.Entities.ArticleReview", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("ArticleId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Review")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ArticleId");
+
+                    b.ToTable("ArticleReview");
+                });
+
+            modelBuilder.Entity("TechnicalCore.Api.Data.Entities.ArticleReview", b =>
+                {
+                    b.HasOne("TechnicalCore.Api.Data.Entities.Article", "Article")
+                        .WithMany("ArticleReviews")
+                        .HasForeignKey("ArticleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Article");
+                });
+
+            modelBuilder.Entity("TechnicalCore.Api.Data.Entities.Article", b =>
+                {
+                    b.Navigation("ArticleReviews");
                 });
 #pragma warning restore 612, 618
         }

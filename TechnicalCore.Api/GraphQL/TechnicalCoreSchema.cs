@@ -8,7 +8,7 @@ namespace TechnicalCore.Api.GraphQL
     {
         public TechnicalCoreSchema(IServiceProvider provider) : base(provider)
         {
-            Query = provider.GetRequiredService<ArticleQuery>();
+            Query = provider.GetRequiredService<TechnicalCoreQuery>();
         }
     }
 }

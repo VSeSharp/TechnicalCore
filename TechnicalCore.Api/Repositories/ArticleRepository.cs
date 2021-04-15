@@ -19,5 +19,9 @@ namespace TechnicalCore.Api.Repositories
         {
             return _dbContext.Articles.ToListAsync();
         }
+        public async Task<Article> GetOne(int id)
+        {
+            return await _dbContext.Articles.SingleOrDefaultAsync(p => p.Id == id);
+        }
     }
 }
