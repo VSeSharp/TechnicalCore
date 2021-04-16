@@ -9,7 +9,7 @@ namespace TechnicalCore.Api.GraphQL
     {
         public TechnicalCoreQuery(IArticleRepository articleRepository)
         {
-            Field<ListGraphType<ArticleType>>(
+            Field<ListGraphType<ArticleInterface>>(
                 "articles",
                 resolve: context => articleRepository.GetAll()
             );

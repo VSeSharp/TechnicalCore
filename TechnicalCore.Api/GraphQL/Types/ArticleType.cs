@@ -24,6 +24,8 @@ namespace TechnicalCore.Api.GraphQL.Types
                            "GetReviewsByArticleId", reviewRepository.GetForArticles);
                    return loader.LoadAsync(context.Source.Id);
                });
+
+            Interface<ArticleInterface>();
         }
     }
 }
