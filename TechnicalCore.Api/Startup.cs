@@ -37,28 +37,28 @@ namespace TechnicalCore.Api
                 opt.UseSqlServer(Configuration.GetConnectionString("TechnicalCore")));
             services.AddScoped<IArticleRepository, ArticleRepository>();
             services.AddScoped<IArticleReviewRepository, ArticleReviewRepository>();
-            services.AddScoped<ISchema, TechnicalCoreSchema>();
+            services.AddScoped<TechnicalCoreSchema>();
 
-            services.TryAddSingleton<ISchema>(s =>
-            {
-                string definitions = @"
-                  type User {
-                    id: ID
-                    name: String
-                  }
+            //services.TryAddSingleton<ISchema>(s =>
+            //{
+            //    string definitions = @"
+            //      type User {
+            //        id: ID
+            //        name: String
+            //      }
 
-                  type Query {
-                    viewer: User
-                    users: [User]
-                  }
-                ";
-                var schema = Schema.For(definitions, builder => builder.Types.Include<Query>());
-                schema.AllTypes["User"].AuthorizeWith("AdminPolicy");
-                return (TechnicalCoreSchema)schema;
-            });
+            //      type Query {
+            //        viewer: User
+            //        users: [User]
+            //      }
+            //    ";
+            //    var schema = Schema.For(definitions, builder => builder.Types.Include<Query>());
+            //    schema.AllTypes["User"].AuthorizeWith("AdminPolicy");
+            //    return schema;
+            //});
 
             // extension method defined in this project
-            services.AddGraphQLAuth((settings, provider) => settings.AddPolicy("AdminPolicy", p => p.RequireClaim("role", "Admin")));
+            //services.AddGraphQLAuth((settings, provider) => settings.AddPolicy("AdminPolicy", p => p.RequireClaim("role", "Admin")));
 
             // claims principal must look something like this to allow access
             // var user = new ClaimsPrincipal(new ClaimsIdentity(new[] { new Claim("role", "Admin") }));
@@ -67,7 +67,7 @@ namespace TechnicalCore.Api
                 .AddGraphQL()
                 .AddSystemTextJson()
                 .AddGraphTypes(typeof(TechnicalCoreSchema), ServiceLifetime.Scoped)
-                .AddUserContextBuilder(context => new GraphQLUserContext { User = context.User })
+                //.AddUserContextBuilder(context => new GraphQLUserContext { User = context.User })
                 .AddDataLoader();
 
             services.AddControllers()
@@ -101,7 +101,7 @@ namespace TechnicalCore.Api
                 app.UseHsts();
             }
 
-            dbContext.Database.EnsureCreated();
+            //dbContext.Database.EnsureCreated();
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
@@ -110,7 +110,7 @@ namespace TechnicalCore.Api
             app.UseAuthorization();
 
             app.UseGraphQL<TechnicalCoreSchema>();
-            app.UseGraphQLGraphiQL();
+            //app.UseGraphQLGraphiQL();
             app.UseGraphQLPlayground(new PlaygroundOptions());
         }
     }
