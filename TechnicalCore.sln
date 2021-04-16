@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31205.134
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TechnicalCore.Api", "TechnicalCore.Api\TechnicalCore.Api.csproj", "{B56BC54A-28C6-493E-8A1B-5C1C133C62D6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TechnicalCore.Api", "TechnicalCore.Api\TechnicalCore.Api.csproj", "{B56BC54A-28C6-493E-8A1B-5C1C133C62D6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TechnicalCore.GraphQL.Authorization", "TechnicalCore.GraphQL.Authorization\TechnicalCore.GraphQL.Authorization.csproj", "{A4D65056-D3AB-4A8C-A108-1A358AAD884C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{B56BC54A-28C6-493E-8A1B-5C1C133C62D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B56BC54A-28C6-493E-8A1B-5C1C133C62D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B56BC54A-28C6-493E-8A1B-5C1C133C62D6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A4D65056-D3AB-4A8C-A108-1A358AAD884C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A4D65056-D3AB-4A8C-A108-1A358AAD884C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A4D65056-D3AB-4A8C-A108-1A358AAD884C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A4D65056-D3AB-4A8C-A108-1A358AAD884C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
