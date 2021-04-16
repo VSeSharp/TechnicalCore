@@ -1,12 +1,15 @@
+using GraphQL;
 using GraphQL.DataLoader;
 using GraphQL.Server;
 using GraphQL.Server.Ui.Playground;
+using GraphQL.Types;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using TechnicalCore.Api.Data;
@@ -34,12 +37,38 @@ namespace TechnicalCore.Api
                 opt.UseSqlServer(Configuration.GetConnectionString("TechnicalCore")));
             services.AddScoped<IArticleRepository, ArticleRepository>();
             services.AddScoped<IArticleReviewRepository, ArticleReviewRepository>();
-            services.AddScoped<TechnicalCoreSchema>();
+            services.AddScoped<ISchema, TechnicalCoreSchema>();
 
-            services.AddGraphQL()
-                    .AddSystemTextJson()
-                    .AddGraphTypes(typeof(TechnicalCoreSchema), ServiceLifetime.Scoped)
-                    .AddDataLoader();
+            services.TryAddSingleton<ISchema>(s =>
+            {
+                string definitions = @"
+                  type User {
+                    id: ID
+                    name: String
+                  }
+
+                  type Query {
+                    viewer: User
+                    users: [User]
+                  }
+                ";
+                var schema = Schema.For(definitions, builder => builder.Types.Include<Query>());
+                schema.AllTypes["User"].AuthorizeWith("AdminPolicy");
+                return (TechnicalCoreSchema)schema;
+            });
+
+            // extension method defined in this project
+            services.AddGraphQLAuth((settings, provider) => settings.AddPolicy("AdminPolicy", p => p.RequireClaim("role", "Admin")));
+
+            // claims principal must look something like this to allow access
+            // var user = new ClaimsPrincipal(new ClaimsIdentity(new[] { new Claim("role", "Admin") }));
+
+            services
+                .AddGraphQL()
+                .AddSystemTextJson()
+                .AddGraphTypes(typeof(TechnicalCoreSchema), ServiceLifetime.Scoped)
+                .AddUserContextBuilder(context => new GraphQLUserContext { User = context.User })
+                .AddDataLoader();
 
             services.AddControllers()
                 .AddNewtonsoftJson(o => o.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
@@ -81,6 +110,7 @@ namespace TechnicalCore.Api
             app.UseAuthorization();
 
             app.UseGraphQL<TechnicalCoreSchema>();
+            app.UseGraphQLGraphiQL();
             app.UseGraphQLPlayground(new PlaygroundOptions());
         }
     }

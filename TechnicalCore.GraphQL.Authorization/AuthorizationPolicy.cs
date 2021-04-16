@@ -1,4 +1,3 @@
-using GraphQL.Authorization;
 using System;
 using System.Collections.Generic;
 
