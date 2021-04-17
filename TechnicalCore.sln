@@ -5,9 +5,11 @@ VisualStudioVersion = 16.0.31205.134
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TechnicalCore.Api", "TechnicalCore.Api\TechnicalCore.Api.csproj", "{B56BC54A-28C6-493E-8A1B-5C1C133C62D6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TechnicalCore.GraphQL.Authorization", "TechnicalCore.GraphQL.Authorization\TechnicalCore.GraphQL.Authorization.csproj", "{A4D65056-D3AB-4A8C-A108-1A358AAD884C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TechnicalCore.GraphQL.Authorization", "TechnicalCore.GraphQL.Authorization\TechnicalCore.GraphQL.Authorization.csproj", "{A4D65056-D3AB-4A8C-A108-1A358AAD884C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TechnicalCore.GraphQL.Authorization.Test", "TechnicalCore.GraphQL.Authorization.Test\TechnicalCore.GraphQL.Authorization.Test.csproj", "{38CC90FD-4F77-448E-BD39-AFA883345836}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TechnicalCore.GraphQL.Authorization.Test", "TechnicalCore.GraphQL.Authorization.Test\TechnicalCore.GraphQL.Authorization.Test.csproj", "{38CC90FD-4F77-448E-BD39-AFA883345836}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TechnicalCore.Web", "TechnicalCore.Web\TechnicalCore.Web.csproj", "{0FEB21AF-3125-4547-90B2-91DA524E8ACB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{38CC90FD-4F77-448E-BD39-AFA883345836}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{38CC90FD-4F77-448E-BD39-AFA883345836}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{38CC90FD-4F77-448E-BD39-AFA883345836}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0FEB21AF-3125-4547-90B2-91DA524E8ACB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0FEB21AF-3125-4547-90B2-91DA524E8ACB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0FEB21AF-3125-4547-90B2-91DA524E8ACB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0FEB21AF-3125-4547-90B2-91DA524E8ACB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

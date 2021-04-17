@@ -10,7 +10,7 @@ namespace TechnicalCore.Api.GraphQL.Types
             Field<IdGraphType>("id");
             Field<NonNullGraphType<StringGraphType>>("title");
             Field<StringGraphType>("review");
-            Field<IntGraphType>("productId");
+            Field<NonNullGraphType<IntGraphType>>("articleId");
         }
     }
 }

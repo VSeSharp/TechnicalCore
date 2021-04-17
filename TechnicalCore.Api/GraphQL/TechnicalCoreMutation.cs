@@ -9,21 +9,20 @@ namespace TechnicalCore.Api.GraphQL
 {
     public class TechnicalCoreMutation : ObjectGraphType
     {
-        //PROBLEM
-        public TechnicalCoreMutation(/*ArticleReviewRepository reviewRepository, ReviewMessageService messageService*/)
+        public TechnicalCoreMutation(IArticleReviewRepository reviewRepository, 
+            ReviewMessageService messageService)
         {
-            //FieldAsync<ArticleReviewType>(
-            //    "createReview",
-            //    arguments: new QueryArguments(
-            //        new QueryArgument<NonNullGraphType<ArticleReviewInputType>> { Name = "review" }),
-
-            //    resolve: async context =>
-            //    {
-            //        var review = context.GetArgument<ArticleReview>("review");
-            //        await reviewRepository.AddReview(review);
-            //        messageService.AddReviewAddedMessage(review);
-            //        return review;
-            //    });
+            FieldAsync<ArticleReviewType>(
+                "createReview",
+                arguments: new QueryArguments(
+                    new QueryArgument<NonNullGraphType<ArticleReviewInputType>> { Name = "review" }),
+                resolve: async context =>
+                {
+                    var review = context.GetArgument<ArticleReview>("review");
+                    ArticleReview createdReview = await reviewRepository.AddReview(review);
+                    messageService.AddReviewAddedMessage(review);
+                    return createdReview;
+                });
         }
     }
 }
